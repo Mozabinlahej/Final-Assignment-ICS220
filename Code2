@@ -1,0 +1,373 @@
+import tkinter as tk
+from tkinter import *
+import pickle
+from enum import Enum
+
+class CarColor(Enum):
+    Red = 1
+    Blue = 2
+    Black = 3
+    White = 4
+    Purple = 5
+    Brown = 6
+    Silver = 7
+    Gold = 8
+    Yellow = 9
+    Green = 10
+
+
+class CarType(Enum):
+    Hatch = 1
+    Sedan = 2
+    SUV = 3
+
+
+class Person: #Creates a base class called person
+    def __init__(self, name,age,dob, passportDetails): #class constructor
+        self.name = name #name of the person
+        self.age = age #age of the person
+        self.dob = dob #date of birth
+        self.passportDetails = passportDetails #passport information belonging to the person
+
+    def setName(self,name):
+        self.name = name
+
+    def setAge(self,age):
+        self.age = age
+    def setDob(self,dob):
+        self.dob = dob
+    def setPassportDetails(self,passportDetails):
+        self.passportDetails = passportDetails
+
+    def getName(self):
+        return self.name
+
+    def getAge(self):
+        return self.age
+
+    def getDob(self):
+        return self.dob
+
+    def getPassportDetails(self):
+        return self.passportDetails
+
+
+
+
+class Employee(Person): #class Employee that inherits attributes & methods from Person class
+    def __init__(self, name,age,dob, passportDetails,IDNumber,department,jobTitle,basicSalary): #constructor method taking the following attributes as parameters with new ones as well
+        super().__init__(name,age, dob,passportDetails)# constructor of parent class
+        self.IDNumber = IDNumber #assigns parameter passed to constructor attribute of employee class
+        self.department = department #assigns parameter passed to constructor attribute of employee class
+        self.jobTitle = jobTitle #assigns parameter passed to constructor attribute of employee class
+        self.basicSalary = basicSalary #assigns parameter passed to constructor attribute of employee class
+    def setIDNumber(self,IDNumber):
+        self.IDNumber = IDNumber
+    def setDepartment(self,department):
+        self.department = department
+    def setJobTitle(self,jobTitle):
+        self.jobTitle = jobTitle
+    def setBasicSalary(self,basicSalary):
+        self.basicSalary = basicSalary
+
+    def getIDNumber(self):
+        return self.IDNumber
+    def getDepartment(self):
+        return self.department
+    def getJobTitle(self):
+        return self.jobTitle
+    def getBasicSalary(self):
+        return self.basicSalary
+
+    #add new car
+    #edit car info
+    #gui to add delete ,modify employee car details
+    #use two windows
+    #one window for fill out employee info
+    #other one for cars
+
+
+
+class Manager(Employee):#Class Manager that inherits from employee class its attributes and methods
+    def __init__(self,name,age,dob, passportDetails,IDNumber,department,jobTitle,basicSalary): #constructor method taking the following attributes as parameters
+        super().__init__(name,age, dob,passportDetails, IDNumber, department, jobTitle, basicSalary ) # constructor of parent class
+
+
+
+class SalesPerson(Employee): #Class SalesPerson that inherits from employee class its attributes and methods
+    def __init__(self,name,age,dob, passportDetails,IDNumber,department,jobTitle,basicSalary): #constructor method taking the following attributes as parameters
+        super().__init__(name,age, dob,passportDetails, IDNumber, department, jobTitle, basicSalary ) # constructor of parent class
+
+
+class Car:
+    def __init__(self, IDNumber, type, price, maxSpeed, color , fuelCapacity ):
+        self.IDNumber = IDNumber
+        self.type = type
+        self.price = price
+        self.maxSpeed = maxSpeed
+        self.color = color
+        self.fuelCapacity = fuelCapacity
+
+    def setIDNumber(self,IDNumber):
+        self.IDNumber = IDNumber
+    def setType(self,type):
+        self.type = type
+    def setPrice(self,price):
+        self.price = price
+    def setMaxSpeed(self,maxSpeed):
+        self.maxSpeed = maxSpeed
+    def setColor(self,color):
+        self.color = color
+    def setFuelCapacity(self,fuelCapacity):
+        self.fuelCapacity = fuelCapacity
+
+    def getIDNumber(self):
+        return self.IDNumber
+    def getType(self):
+        return self.type
+    def getPrice(self):
+        return self.price
+    def getMaxSpeed(self):
+        return self.maxSpeed
+    def getColor(self):
+        return self.color
+    def getFuelCapacity(self):
+        return self.fuelCapacity
+
+
+detailsDictionary = {}
+
+class DetailsGUI:
+    def __init__(self):
+        #creates a window
+        self.root = tk.Tk()
+        self.root.geometry("500x300")
+        self.root.title("Employee & Car Management System")
+
+        self.option_label = tk.Label(self.root, text = "Choose an option:")
+        self.option_label.pack(padx = 10, pady = 10)
+
+        self.customer_button = tk.Button(self.root,text = "Customers Click Here",command= self.open_window1)
+        self.customer_button.pack(padx = 20, pady = 20)
+
+        self.staff_button = tk.Button(self.root, text = "Emplployees Click Here",command= self.open_window2)
+        self.staff_button.pack(padx = 20, pady = 20)
+
+        self.car_button = tk.Button(self.root, text = "Car Details",command=self.open_window3)
+        self.car_button.pack(padx = 20, pady = 20)
+    def open_window1(self):
+        window1 = tk.Toplevel(root)
+        window1.title("Customer Details")
+
+        self.customer_name_label = Label(window1, text="Name:")
+        self.customer_name_label.grid(row=0, column=0, padx=5, pady=5)
+        self.customer_name_entry = Entry(window1)
+        self.customer_name_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        self.ID_label = Label(window1, text="ID:")
+        self.ID_label.grid(row=1, column=0, padx=5, pady=5)
+        self.ID_entry = Entry(window1)
+        self.ID_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        self.number_label = Label(window1, text="Phone Number:")
+        self.number_label.grid(row=2, column=0, padx=5, pady=5)
+        self.number_entry = Entry(window1)
+        self.number_entry.grid(row=2, column=1, padx=5, pady=5)
+
+
+        self.add_button = Button(window1, text="Add details")
+        self.add_button.grid(row=6, column=0, padx=5, pady=5)
+        self.delete_button = Button(window1, text="Delete details")
+        self.delete_button.grid(row=6, column=1, padx=5, pady=5)
+        self.modify_button = Button(window1, text="Modify details")
+        self.modify_button.grid(row=7, column=0, padx=5, pady=5)
+        self.main_menu_button = Button(window1, text="Main Menu")
+        self.main_menu_button.grid(row=7, column=1, padx=5, pady=5)
+    def open_window2(self):
+        window2 = tk.Toplevel(root)
+        window2.title("Employee Details")
+
+        self.name_label = Label(window2,text= "Name:")
+        self.name_label.grid(row = 0 , column = 0 ,padx =5 , pady =5)
+        self.name_entry = Entry(window2)
+        self.name_entry.grid(row = 0, column= 1,padx =5 , pady =5)
+
+        self.age_label = Label(window2,text="Age:")
+        self.age_label.grid(row = 1 , column = 0 ,padx =5 , pady =5)
+        self.age_entry = Entry(window2)
+        self.age_entry.grid(row = 1, column= 1,padx =5 , pady =5)
+
+        self.dob_label = Label(window2, text="Date of Birth:")
+        self.dob_label.grid(row = 2 , column = 0,padx =5 , pady =5 )
+        self.dob_entry = Entry(window2)
+        self.dob_entry.grid(row = 2, column= 1,padx =5 , pady =5)
+
+        self.passport_details_label = Label(window2, text="Passport Details:")
+        self.passport_details_label.grid(row = 3 , column = 0,padx =5 , pady =5 )
+        self.passport_details_entry = Entry(window2)
+        self.passport_details_entry.grid(row = 3, column= 1,padx =5 , pady =5)
+
+        self.IDNumber_label = Label(window2, text="ID Number:")
+        self.IDNumber_label.grid(row = 4 , column = 0,padx =5 , pady =5 )
+        self.IDNumber_entry = Entry(window2)
+        self.IDNumber_entry.grid(row = 4, column= 1,padx =5 , pady =5)
+
+        self.department_label = Label(window2,text = "Department: ")
+        self.department_label.grid(row = 5 , column = 0 ,padx =5 , pady =5)
+        self.department_entry = Entry(window2)
+        self.department_entry.grid(row = 5, column= 1,padx =5 , pady =5)
+
+        self.jobTitle_label = Label(window2, text = "Job Title:")
+        self.jobTitle_label.grid(row = 6, column = 0,padx =5 , pady =5 )
+        self.jobTitle_entry = Entry(window2)
+        self.jobTitle_entry.grid(row = 6, column= 1,padx =5 , pady =5)
+
+        self.basicSalary_label = Label(window2,text = "Basic Salary: ")
+        self.basicSalary_label.grid(row = 7 , column = 0,padx =5 , pady =5 )
+        self.basicSalary_entry = Entry(window2)
+        self.basicSalary_entry.grid(row = 7, column= 1,padx =5 , pady =5)
+
+
+        self.add_button = Button(window2,text= "Add details")
+        self.add_button.grid(row = 8, column = 0,padx =5 , pady =5)
+        self.delete_button = Button(window2, text = "Delete details")
+        self.delete_button.grid(row = 8, column = 1,padx =5 , pady =5)
+        self.modify_button = Button(window2, text = "Modify details")
+        self.modify_button.grid(row = 9, column = 0,padx =5 , pady =5)
+        self.main_menu_button = Button(window2, text="Main Menu")
+        self.main_menu_button.grid(row=9, column=1, padx=5, pady=5)
+
+    def open_window3(self):
+        window3 = tk.Toplevel(root)
+        window3.title("Car Details")
+
+        self.IDNumber_label = Label(window3, text="ID Number:")
+        self.IDNumber_label.grid(row=0, column=0, padx=5, pady=5)
+        self.IDNumber_entry = Entry(window3)
+        self.IDNumber_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        self.type_label = Label(window3, text="Type:")
+        self.type_label.grid(row=1, column=0, padx=5, pady=5)
+        self.type_entry = Entry(window3)
+        self.type_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        self.price_label = Label(window3, text="Price:")
+        self.price_label.grid(row=2, column=0, padx=5, pady=5)
+        self.price_entry = Entry(window3)
+        self.price_entry.grid(row=2, column=1, padx=5, pady=5)
+
+        self.maxSpeed_label = Label(window3, text="Max Speed:")
+        self.maxSpeed_label.grid(row=3, column=0, padx=5, pady=5)
+        self.maxSpeed_details_entry = Entry(window3)
+        self.maxSpeed_details_entry.grid(row=3, column=1, padx=5, pady=5)
+
+        self.color_label = Label(window3, text="Color:")
+        self.color_label.grid(row=4, column=0, padx=5, pady=5)
+        self.color_entry = Entry(window3)
+        self.color_entry.grid(row=4, column=1, padx=5, pady=5)
+
+        self.fuelCapacity_label = Label(window3, text="Fuel Capacity:")
+        self.fuelCapacity_label.grid(row=5, column=0, padx=5, pady=5)
+        self.fuelCapacity_entry = Entry(window3)
+        self.fuelCapacity_entry.grid(row=5, column=1, padx=5, pady=5)
+
+        self.add_button = Button(window3, text="Add details")
+        self.add_button.grid(row=6, column=0, padx=5, pady=5)
+        self.delete_button = Button(window3, text="Delete details")
+        self.delete_button.grid(row=6, column=1, padx=5, pady=5)
+        self.modify_button = Button(window3, text="Modify details")
+        self.modify_button.grid(row=7, column=0, padx=5, pady=5)
+        self.main_menu_button = Button(window3, text="Main Menu")
+        self.main_menu_button.grid(row=7, column=1, padx=5, pady=5)
+
+    def add_employee(self):
+        name = self.name_entry.get()
+        age = self.age_entry.get()
+        dob = self.dob_entry.get()
+        passport = self.passport_details_entry.get()
+        ID = self.ID_entry.get()
+        department = self.department_entry.get()
+        jobTitle = self.jobTitle_entry.get()
+        basicSalary = self.basicSalary_entry.get()
+        employee = Emlpoyee(name,age, dob,passport,ID,department,jobTitle,basicSalary)
+        employee_lis
+        #create a dictionary with existing info given tin the table
+        #pickle/dump the data then load it 
+        '''
+        #Create buttons
+        self.add_employee_button = tk.Button(self.root, text= "Add Employee",command = self.open)
+        self.add_employee_button.grid(row = 0,column =0,padx =5 ,pady=5)
+
+        self.delete_employee_button = tk.Button(self.root, text= "Delete Employee",command = self.open)
+        self.delete_employee_button.grid(row =1, column = 0,padx =5 ,pady=5)
+
+
+        self.modify1_button = tk.Button(self.root, text= "Modify Details of Employee",command = self.open)
+        self.modify1_button.grid(row =2, column = 0,padx =5 ,pady=5)
+
+        self.employee_details_button = tk.Button(self.root, text="Employee Details", command = self.open)
+        self.employee_details_button.grid(row =3, column = 0,padx =5 ,pady=5)
+
+        self.add_car_button = tk.Button(self.root, text = "Add Car",command = self.open)
+        self.add_car_button.grid(row =0, column = 1,padx =5 ,pady=5)
+
+        self.delete_car_button = tk.Button(self.root,text="Delete Car", command = self.open)
+        self.delete_car_button.grid(row =1, column = 1,padx =5 ,pady=5)
+
+
+        self.modify2_button = tk.Button(self.root, text= "Modify Details of Car",command = self.open)
+        self.modify2_button.grid(row =2, column = 1,padx =5 ,pady=5)
+
+        self.sales_details_button = tk.Button(self.root, text = "Sales Details",command = self.open)
+        self.sales_details_button.grid(row =3, column = 1,padx =5 ,pady=5)
+
+        self.car_details_button = tk.Button(self.root, text = "Car Details",command = self.open)
+        self.car_details_button.grid(row =4, column = 0,padx =5 ,pady=5)
+    def open(self):
+        window2 = Toplevel()
+        window2.title("Second Window")
+        window2.geometry("500x500")
+
+    '''
+
+    #def add_employee_window(self):
+
+
+
+    #def delete_employee_window(self):
+
+
+
+    #def modify_employee_window(self):
+
+
+
+    #def add_car_window(self):
+
+
+
+    #def delete_car_window(self):
+
+
+
+    #def modify_car_window(self):
+
+
+
+    #def salesDisplay(self):
+
+
+
+    #def employeeDetails(self):
+
+
+
+    #def carDetails(self):
+
+
+
+
+
+root = tk.Tk()
+gui = DetailsGUI()
+root.mainloop()
