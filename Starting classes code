@@ -1,0 +1,56 @@
+from enum import Enum
+class CarColor(Enum):
+    Red = 1
+    Blue = 2
+    Black = 3
+    White = 4
+    Purple = 5
+    Brown = 6
+    Silver = 7
+    Gold = 8
+    Yellow = 9
+    Green = 10
+class CarType(Enum):
+    Hatch = 1
+    Sedan = 2
+    SUV = 3
+class Person: #Creates a base class called person
+    def __init__(self, name,age,dob, passportDetails): #class constructor
+        self.name = name #name of the person
+        self.age = age #age of the person
+        self.dob = dob #date of birth
+        self.passportDetails = passportDetails #passport information belonging to the person
+
+
+
+
+class Employee(Person): #class Employee that inherits attributes & methods from Person class
+    def __init__(self, name,age,dob, passportDetails,IDNumber,department,jobTitle,basicSalary): #constructor method taking the following attributes as parameters with new ones as well
+        super().__init__(name,age, dob,passportDetails)# constructor of parent class
+        self.IDNumber = IDNumber #assigns parameter passed to constructor attribute of employee class
+        self.department = department #assigns parameter passed to constructor attribute of employee class
+        self.jobTitle = jobTitle #assigns parameter passed to constructor attribute of employee class
+        self.basicSalary = basicSalary #assigns parameter passed to constructor attribute of employee class
+
+
+
+class Manager(Employee):#Class Manager that inherits from employee class its attributes and methods
+    def __init__(self,name,age,dob, passportDetails,IDNumber,department,jobTitle,basicSalary): #constructor method taking the following attributes as parameters
+        super().__init__(name,age, dob,passportDetails, IDNumber, department, jobTitle, basicSalary ) # constructor of parent class
+
+
+
+class SalesPerson(Employee): #Class SalesPerson that inherits from employee class its attributes and methods
+    def __init__(self,name,age,dob, passportDetails,IDNumber,department,jobTitle,basicSalary): #constructor method taking the following attributes as parameters
+        super().__init__(name,age, dob,passportDetails, IDNumber, department, jobTitle, basicSalary ) # constructor of parent class
+
+
+class Car:
+    def __init__(self, IDNumber, type, price, maxSpeed, color , fuelCapacity ):
+        self.IDNumber = IDNumber
+        self.type = type
+        self.price = price
+        self.maxSpeed = maxSpeed
+        self.color = color
+        self.fuelCapacity = fuelCapacity
+    
